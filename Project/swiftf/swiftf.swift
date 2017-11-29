@@ -1,20 +1,20 @@
 import Foundation
 
 extension Optional {
-    public func reduce<U>(initial: U, @noescape combine: (U, Wrapped) -> U) -> U {
+    public func reduce<U>(_ initial: U, combine: (U, Wrapped) -> U) -> U {
         switch self {
-        case .None:
+        case .none:
             return initial
-        case .Some(let value):
+        case .some(let value):
             return combine(initial, value)
         }
     }
     
-    public func filter(@noescape includeElement: Wrapped -> Bool) -> Wrapped? {
+    public func filter(includeElement: (Wrapped) -> Bool) -> Wrapped? {
         return flatMap { includeElement($0) ? $0 : nil }
     }
     
-    public func forEach(@noescape action: Wrapped -> ()) {
+    public func forEach(action: (Wrapped) -> ()) {
         reduce(()) { action($1) }
     }
 }
